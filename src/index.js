@@ -4,7 +4,6 @@ function eval() {
 }
 
 function expressionCalculator(expr) {
-    let result=0;
     let str = expr.replace( /\s/g, '');
     let arr = str.split(/(\D)/);
     function multipl(a,b){
@@ -22,21 +21,37 @@ function expressionCalculator(expr) {
     function subtr(a,b){
         return (+a)-(+b);
     }
+    let stack = 0;
     for(let i=0; i<arr.length; i++){
         if (arr[i]==='*') {
-            result+=multipl(arr[i-1],arr[i+1]);
-        }
-        if (arr[i]==='+') {
-            result+=sum(arr[i-1],arr[i+1]);
+            let stack = multipl(arr[i-1],arr[i+1]); 
+            arr.splice(i-1, 3, stack);
+            i-=1;   
         }
         if (arr[i]==='/') {
-            result+=div(arr[i-1],arr[i+1]);
-        }
-        if (arr[i]==='-') {
-            result+=subtr(arr[i-1],arr[i+1]);
+            let stack = div(arr[i-1],arr[i+1]); 
+            arr.splice(i-1, 3, stack);
+            i-=1;    
         }
     }
-    console.log(result);
+    
+     
+    for(let i=0; i<arr.length; i++){
+        if (arr[i]==='+') {
+            let stack = sum(arr[i-1],arr[i+1]); 
+            arr.splice(i-1, 3, stack);   
+            i-=1;         
+        }
+        if (arr[i]==='-') {
+            let stack = subtr(arr[i-1],arr[i+1]); 
+            arr.splice(i-1, 3, stack); 
+            i-=1;   
+        }
+    } 
+    
+     
+    let result =arr[0];    
+    
     return result;
 
 }
