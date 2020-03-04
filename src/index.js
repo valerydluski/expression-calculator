@@ -4,7 +4,7 @@ function eval() {
 }
 
 function expressionCalculator(expr) {
-    // write your solution here
+    let str = expra.replace( /\s/g, "");
 }
 
 module.exports = {
