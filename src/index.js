@@ -24,7 +24,8 @@ function subtr(a,b){
 function expressionCalculator(expr) {
     let str = expr.replace( /\s/g, '');
     let arr = str.split(/(\D)/);
-
+    arr = arr.filter(Boolean);
+    
     let stack = 0;
     let bracketsCount = 0;
     
@@ -39,24 +40,19 @@ function expressionCalculator(expr) {
         if(bracketsCount != 0){
             throw 'ExpressionError: Brackets must be paired';   
         }
-    if(expr.match(/\(/g) != null) { 
-        let stackIndex;
+    if(expr.match(/\(/g) != null) {   
         for(let i=arr.length-1; i>=0; i--){
             if (arr[i]==='('){
-            let indexOpen=i;
                 
-                let stackArr=[];
                 for (let k=i+1; k<arr.length; k++){
-                    if (arr[k]==='('){
-                        stackIndex=indexOpen;    
-                        break;
-                    }
-                    if (arr[k]===')'){    
+                    if (arr[k]===')'){  
+                    let stackArr=[];      
                     stackArr = arr.slice(i+1,k)
-                    let x = calc(stackArr);
-                    arr.splice(i-1, k-i+3, x);
-                    console.log(stackIndex);
+                    let x = calc(stackArr);                
+                    arr.splice(i, k-i+1, x);
                     
+                    i=k;
+                    break;
                     }
                 
                 }
@@ -92,7 +88,7 @@ function expressionCalculator(expr) {
         return arr[0]; 
     }
     
-    console.log(arr);
+    
     let result =+calc(arr);    
     
     return result;
